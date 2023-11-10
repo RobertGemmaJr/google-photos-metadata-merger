@@ -1,6 +1,5 @@
 import json
 import os
-from pprint import pprint
 import subprocess
 import warnings
 from pathlib import Path
@@ -22,17 +21,25 @@ def apply_metadata(json_file, media_file):
     # Build the ExifTool command
     exiftool_cmd = ["exiftool"]
 
+    # TODO: Which metadata is actually needed?
+    # title
+    # description
+    # imageViews
+    # creationTime
+    # photoTakenTime
+    # photoLastModifiedTime
+
+    # Location Data
+    # ? googlePhotosOrigin
     for key, value in metadata.items():
         exiftool_cmd.append(f"-{key}={value}")
 
     exiftool_cmd.append(media_file)
 
     # Run the ExifTool command
-    print(f"APPLYING METADATA FROM {json_file} TO {media_file}")
-    pprint(metadata)
-    # print(exiftool_cmd)
-    # print()
-    # subprocess.run(exiftool_cmd)
+    print(exiftool_cmd)
+    subprocess.run(exiftool_cmd)
+    print()
 
 
 def main(
