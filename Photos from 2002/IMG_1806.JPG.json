@@ -1,0 +1,37 @@
+{
+  "title": "IMG_1806.JPG",
+  "description": "",
+  "imageViews": "31",
+  "creationTime": {
+    "timestamp": "1504629873",
+    "formatted": "Sep 5, 2017, 4:44:33 PM UTC"
+  },
+  "photoTakenTime": {
+    "timestamp": "1036189470",
+    "formatted": "Nov 1, 2002, 10:24:30 PM UTC"
+  },
+  "geoData": {
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "altitude": 0.0,
+    "latitudeSpan": 0.0,
+    "longitudeSpan": 0.0
+  },
+  "geoDataExif": {
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "altitude": 0.0,
+    "latitudeSpan": 0.0,
+    "longitudeSpan": 0.0
+  },
+  "url": "https://lh3.googleusercontent.com/I1_JpEFXb1uyoUJLiz5ylhY6yT2MzWozSKKUrsekA2s0__MXYenC4dVj7DVmYSHGXx7MssUuiP84privPRVUuc0waFc-bXbj0s_0MjY",
+  "googlePhotosOrigin": {
+    "mobileUpload": {
+      "deviceType": "IOS_PHONE"
+    }
+  },
+  "photoLastModifiedTime": {
+    "timestamp": "1650631894",
+    "formatted": "Apr 22, 2022, 12:51:34 PM UTC"
+  }
+}
