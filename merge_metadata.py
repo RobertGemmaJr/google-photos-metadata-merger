@@ -1,12 +1,21 @@
 import json
-import subprocess
 import os
-import typer
+from pprint import pprint
+import subprocess
+import warnings
 from pathlib import Path
+
+import typer
 from typing_extensions import Annotated
 
 
-def apply_metadata(json_file, image_file):
+def is_media_file(filename):
+    supported_extensions = {".jpg", ".jpeg", ".png", ".heic", ".mp4", ".mov"}
+    _, extension = os.path.splitext(filename)
+    return extension.lower() in supported_extensions
+
+
+def apply_metadata(json_file, media_file):
     with open(json_file, "r") as f:
         metadata = json.load(f)
 
@@ -16,45 +25,59 @@ def apply_metadata(json_file, image_file):
     for key, value in metadata.items():
         exiftool_cmd.append(f"-{key}={value}")
 
-    exiftool_cmd.append(image_file)
+    exiftool_cmd.append(media_file)
 
     # Run the ExifTool command
-    subprocess.run(exiftool_cmd)
-
-
-def process_directory(directory):
-    for root, _, files in os.walk(directory):
-        for filename in files:
-            if filename.endswith(".json"):
-                json_file = os.path.join(root, filename)
-                image_file = os.path.join(
-                    root, os.path.splitext(filename)[0] + ".jpg"
-                )
-
-                # Check if the corresponding image file exists
-                if os.path.exists(image_file):
-                    apply_metadata(json_file, image_file)
+    print(f"APPLYING METADATA FROM {json_file} TO {media_file}")
+    pprint(metadata)
+    # print(exiftool_cmd)
+    # print()
+    # subprocess.run(exiftool_cmd)
 
 
 def main(
     directory: Annotated[
-        str,
-        typer.Argument(help="Input folder containing the images and metadata"),
+        Path,
+        typer.Argument(
+            exists=True,
+            file_okay=False,
+            dir_okay=True,
+            writable=True,
+            readable=True,
+            resolve_path=True,
+            help="Input folder containing the images and metadata",
+        ),
     ]
 ):
-    print(f"Hello {directory}")
-    # if len(sys.argv) != 2:
-    #     print("Usage: python script.py /path/to/directory")
-    #     sys.exit(1)
+    # Process the given directory
+    for root, _, files in os.walk(directory):
+        for filename in files:
+            if filename.lower().endswith(".json"):
+                # Process a
+                json_file = os.path.join(root, filename)
 
-    # directory = sys.argv[1]
+                # Find supported media files with the same base name
+                media_files = [
+                    os.path.join(root, f)
+                    for f in os.listdir(root)
+                    if f.startswith(os.path.splitext(filename)[0])
+                    and is_media_file(f)
+                ]
 
-    # # Validate if the specified directory exists
-    # if not os.path.exists(directory):
-    #     print(f"Error: Directory '{directory}' not found.")
-    #     sys.exit(1)
+                if len(media_files) > 1:
+                    raise Exception(
+                        f"Multiple media files found for {json_file}:"
+                        + f"\t{media_files}"
+                    )
 
-    # process_directory(directory)
+                # Apply metadata for each supported media file
+                if media_files:
+                    for media_file in media_files:
+                        apply_metadata(json_file, media_file)
+                else:
+                    warnings.warn(
+                        f"File {json_file} has no corresponding media files"
+                    )
 
 
 if __name__ == "__main__":
