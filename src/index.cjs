@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-import { program } from "commander";
-import { name, description, version } from "../package.json";
+const { program } = require("commander");
+const { name, description, version } = require("../package.json");
 
+/** Run the commander program */
 program
   // Parse package.json
   .name(name)
