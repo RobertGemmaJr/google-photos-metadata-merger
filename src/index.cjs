@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const { program } = require("commander");
 const { name, description, version } = require("../package.json");
 
