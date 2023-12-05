@@ -16,6 +16,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo 'No tests'"
+    "test": "echo 'No tests'",
+    "start": "node index.js"
   }
 }
