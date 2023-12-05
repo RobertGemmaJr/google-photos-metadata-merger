@@ -1,1 +1,14 @@
 node_modules/
+
+# Logs
+lerna-debug.log
+npm-debug.log
+
+# Lerna and NX
+packages/*/lib
+.nx
+
+# IDE
+.vscode
+.idea
+

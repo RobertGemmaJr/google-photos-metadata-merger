@@ -1,0 +1,26 @@
+{
+  "name": "metadata-finder",
+  "version": "0.0.0",
+  "description": "Finds the unique set of metadata fields within a Google Photos export",
+  "author": "Robert Gemma <38439940+RobertGemmaJr@users.noreply.github.com>",
+  "homepage": "https://github.com/RobertGemmaJr/google-photos-metadata-merger#readme",
+  "license": "ISC",
+  "main": "lib/metadata-finder.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertGemmaJr/google-photos-metadata-merger.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/metadata-finder.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/RobertGemmaJr/google-photos-metadata-merger/issues"
+  }
+}
