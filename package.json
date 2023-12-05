@@ -1,0 +1,21 @@
+{
+  "name": "google-photos-metadata-merger",
+  "description": "Merges the metadata files from Google Photos' takeout download with the original files",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "RobertGemmaJr",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertGemmaJr/google-photos-metadata-merger.git"
+  },
+  "homepage": "https://github.com/RobertGemmaJr/google-photos-metadata-merger#readme",
+  "license": "ISC",
+  "dependencies": {
+    "@inquirer/prompts": "^3.3.0",
+    "inquirer": "^9.2.12"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo 'No tests'"
+  }
+}
