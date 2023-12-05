@@ -19,5 +19,8 @@
   "scripts": {
     "test": "echo 'No tests'",
     "start": "node src/index.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0"
   }
 }

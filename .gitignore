@@ -1,7 +1,11 @@
 node_modules/
+.husky
 
 # IDE
 .vscode
 .idea
 
 # Logs
+
+# Misc
+.DS_Store
