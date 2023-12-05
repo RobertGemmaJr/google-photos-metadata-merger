@@ -9,7 +9,7 @@
   "homepage": "https://github.com/RobertGemmaJr/google-photos-metadata-merger#readme",
   "license": "ISC",
   "version": "0.0.1",
-  "main": "src/index.cjs",
+  "main": "src/index.js",
   "type": "module",
   "dependencies": {
     "@inquirer/prompts": "^3.3.0",
@@ -19,7 +19,7 @@
   "scripts": {
     "format": "prettier . --write",
     "lint": "eslint .",
-    "start": "node src/index.cjs",
+    "start": "node src/index.js find",
     "test": "echo 'No tests'",
     "prepare": "husky install"
   },
