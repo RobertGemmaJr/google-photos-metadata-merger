@@ -18,7 +18,8 @@
   },
   "scripts": {
     "test": "echo 'No tests'",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "eslint": "^8.55.0"
