@@ -1,12 +1,18 @@
 #!/usr/bin/env node
-const { program } = require("commander");
+const { Command } = require("commander");
+
 const { name, description, version } = require("../package.json");
 
-/** Run the commander program */
-program
-  // Parse package.json
-  .name(name)
-  .description(description)
-  .version(version, "-v, - version")
-  // Parse arguments
-  .parse(process.argv);
+const PROGRAM = new Command();
+
+// Add metadata from package.json
+PROGRAM.name(name).description(description).version(version, "-v, - version");
+
+// TODO: Add action for when no subcommand is given
+
+// TODO: Add "find" command
+// TODO: Add "merge" command
+// TODO: Add "organize" command
+
+// Parse arguments
+PROGRAM.parse(process.argv);
