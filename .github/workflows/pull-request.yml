@@ -10,6 +10,7 @@ permissions:
   contents: read
 
 jobs:
+  # TODO: Eslint warnings should cause the action to fail
   lint:
     name: ⬣ ESLint
     runs-on: ubuntu-latest
