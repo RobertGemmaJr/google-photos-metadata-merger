@@ -1,0 +1,40 @@
+{
+  "name": "google-photos-metadata-merger",
+  "description": "Merges the metadata files from Google Photos' takeout download with the original files",
+  "author": "RobertGemmaJr",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertGemmaJr/google-photos-metadata-merger.git"
+  },
+  "homepage": "https://github.com/RobertGemmaJr/google-photos-metadata-merger#readme",
+  "license": "ISC",
+  "version": "0.0.1",
+  "main": "src/index.cjs",
+  "type": "module",
+  "dependencies": {
+    "@inquirer/prompts": "^3.3.0",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12"
+  },
+  "scripts": {
+    "format": "prettier . --write",
+    "lint": "eslint .",
+    "start": "node src/index.cjs",
+    "test": "echo 'No tests'",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "3.1.0"
+  },
+  "lint-staged": {
+    "**/*": [
+      "prettier --ignore-unknown --write"
+    ],
+    "**/*.{ts,tsx}": [
+      "eslint --fix"
+    ]
+  }
+}
