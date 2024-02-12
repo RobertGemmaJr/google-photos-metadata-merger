@@ -8,7 +8,7 @@ try {
   // Pass the extracted metadata to ExifTool
   const exifToolProcess = exec(
     `exiftool -json=${JSON.stringify(metadata)} /path/to/your/photograph.jpg`,
-    (error, stdout, stderr) => {
+    (error, stdout) => {
       if (error) {
         console.error("Error executing ExifTool:", error);
         return;

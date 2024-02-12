@@ -17,11 +17,9 @@
     "inquirer": "^9.2.12"
   },
   "scripts": {
-    "format": "prettier . --write",
+    "format": "prettier --write .",
     "lint": "eslint .",
-    "start": "node src/index.js find",
-    "test": "echo 'No tests'",
-    "prepare": "husky install"
+    "start": "node src/index.js"
   },
   "devDependencies": {
     "eslint": "^8.55.0",
