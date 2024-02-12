@@ -1,6 +1,9 @@
 node_modules/
 .husky
 
+# Data
+data
+
 # IDE
 .vscode
 .idea
