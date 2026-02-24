@@ -18,22 +18,18 @@ const config: Config = {
   comparisonMode: "filename+meta",
   hashAlgorithm: "sha256",
   concurrency: 8,
+  scanConcurrency: 8,
 };
 
-function resolveOutputDir(baseDir: string) {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  return path.join(baseDir, timestamp);
-}
-
-const outputDir = resolveOutputDir(config.outputDir);
+const outputDir = path.join(config.outputDir, new Date().toISOString().replace(/[:.]/g, "-"));
 const start = Date.now();
 
-console.log("Starting iCloud and mobile scans...");
-const [icloudScan, mobileScan] = await Promise.all([
-  scanDirectory(config.icloudRoot, config),
-  scanDirectory(config.mobileRoot, config),
-]);
+console.log(`Starting iCloud scan (scan concurrency: ${config.scanConcurrency})...`);
+const icloudScan = await scanDirectory(config.icloudRoot, config);
 console.log(`iCloud scan complete. Files: ${icloudScan.totalFiles}`);
+
+console.log(`Starting mobile scan (scan concurrency: ${config.scanConcurrency})...`);
+const mobileScan = await scanDirectory(config.mobileRoot, config);
 console.log(`Mobile scan complete. Files: ${mobileScan.totalFiles}`);
 
 console.log("Comparing entries...");

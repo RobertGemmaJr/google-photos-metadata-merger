@@ -11,22 +11,20 @@ function buildCountMap(values: string[]) {
 }
 
 function countMapsEqual(left: Map<string, number>, right: Map<string, number>) {
-  if (left.size !== right.size) {
-    return false;
-  }
+  if (left.size !== right.size) return false;
+
   for (const [key, value] of left) {
-    if (right.get(key) !== value) {
-      return false;
-    }
+    if (right.get(key) !== value) return false;
   }
   return true;
 }
 
 function entriesDifferByMeta(icloud: FileEntry[], mobile: FileEntry[]) {
   const normalize = (entry: FileEntry) => `${entry.size}:${Math.round(entry.mtimeMs)}`;
-  const left = buildCountMap(icloud.map(normalize));
-  const right = buildCountMap(mobile.map(normalize));
-  return !countMapsEqual(left, right);
+  return !countMapsEqual(
+    buildCountMap(icloud.map(normalize)),
+    buildCountMap(mobile.map(normalize))
+  );
 }
 
 async function entriesDifferByHash(icloud: FileEntry[], mobile: FileEntry[], config: Config) {

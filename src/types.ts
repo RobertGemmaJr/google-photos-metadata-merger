@@ -11,6 +11,7 @@ export interface Config {
   comparisonMode: ComparisonMode;
   hashAlgorithm: "sha256";
   concurrency: number;
+  scanConcurrency: number;
 }
 
 export interface FileEntry {
