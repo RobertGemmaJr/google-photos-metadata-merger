@@ -11,7 +11,7 @@ const config: Config = {
   icloudRoot: ICLOUD_ROOT,
   mobileRoot: MOBILE_ROOT,
   outputDir: "reports",
-  ignorePatterns: ["**/.DS_Store", "**/Thumbs.db", "**/@eaDir/**"],
+  ignorePatterns: ["**/.DS_Store", "**/Thumbs.db", "**/@eaDir/**", "**/2026/**"],
   includeExtensions: [],
   caseSensitive: false,
   followSymlinks: false,
@@ -28,12 +28,12 @@ function resolveOutputDir(baseDir: string) {
 const outputDir = resolveOutputDir(config.outputDir);
 const start = Date.now();
 
-console.log("Starting iCloud scan...");
-const icloudScan = await scanDirectory(config.icloudRoot, config);
+console.log("Starting iCloud and mobile scans...");
+const [icloudScan, mobileScan] = await Promise.all([
+  scanDirectory(config.icloudRoot, config),
+  scanDirectory(config.mobileRoot, config),
+]);
 console.log(`iCloud scan complete. Files: ${icloudScan.totalFiles}`);
-
-console.log("Starting mobile scan...");
-const mobileScan = await scanDirectory(config.mobileRoot, config);
 console.log(`Mobile scan complete. Files: ${mobileScan.totalFiles}`);
 
 console.log("Comparing entries...");
