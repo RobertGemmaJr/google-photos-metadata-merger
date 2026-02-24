@@ -2,7 +2,7 @@ import path from "node:path";
 import type { ComparisonMode } from "./types.ts";
 import { normalizePath } from "./utils/path-utils.ts";
 
-const DEFAULT_IGNORE = ["**/.DS_Store", "**/Thumbs.db", "**/@eaDir/**"];
+const DEFAULT_IGNORE = ["**/.DS_Store", "**/Thumbs.db", "**/@eaDir/**", "**/2026/**"];
 
 function parseList(value: string | undefined) {
   if (!value) {
@@ -73,5 +73,5 @@ export function buildConfig(args: {
 
 export function resolveOutputDir(baseDir: string) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  return path.join(baseDir, `comparison-report-${timestamp}`);
+  return path.join(baseDir, timestamp);
 }

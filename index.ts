@@ -22,7 +22,7 @@ const config: Config = {
 
 function resolveOutputDir(baseDir: string) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  return path.join(baseDir, `comparison-report-${timestamp}`);
+  return path.join(baseDir, timestamp);
 }
 
 const outputDir = resolveOutputDir(config.outputDir);
