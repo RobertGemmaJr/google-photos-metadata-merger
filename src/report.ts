@@ -18,6 +18,7 @@ function csvEscape(value: string | number) {
 function formatEntryRow(entry: FileEntry, archive: string) {
   return [
     csvEscape(entry.name),
+    csvEscape(entry.monthKey),
     csvEscape(toPosix(entry.fullPath)),
     csvEscape(toPosix(entry.relativePath)),
     csvEscape(entry.size),
@@ -30,6 +31,7 @@ function formatDifferentRow(name: string, archive: string, entry: FileEntry, rea
   return [
     csvEscape(name),
     csvEscape(archive),
+    csvEscape(entry.monthKey),
     csvEscape(toPosix(entry.fullPath)),
     csvEscape(entry.size),
     csvEscape(formatDate(entry.mtimeMs)),
@@ -49,8 +51,8 @@ export async function writeReports(
   const differentPath = path.join(outputDir, "same-name-different.csv");
   const summaryPath = path.join(outputDir, "summary.log");
 
-  const onlyInHeader = "filename,full_path,relative_path,size_bytes,mtime_iso,archive\n";
-  const differentHeader = "filename,archive,full_path,size_bytes,mtime_iso,reason\n";
+  const onlyInHeader = "filename,month_key,full_path,relative_path,size_bytes,mtime_iso,archive\n";
+  const differentHeader = "filename,archive,month_key,full_path,size_bytes,mtime_iso,reason\n";
 
   const onlyInIcloudBody = compare.onlyInIcloud
     .map((entry) => formatEntryRow(entry, "icloud"))

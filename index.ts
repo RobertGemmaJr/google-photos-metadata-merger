@@ -28,9 +28,17 @@ function resolveOutputDir(baseDir: string) {
 const outputDir = resolveOutputDir(config.outputDir);
 const start = Date.now();
 
+console.log("Starting iCloud scan...");
 const icloudScan = await scanDirectory(config.icloudRoot, config);
+console.log(`iCloud scan complete. Files: ${icloudScan.totalFiles}`);
+
+console.log("Starting mobile scan...");
 const mobileScan = await scanDirectory(config.mobileRoot, config);
+console.log(`Mobile scan complete. Files: ${mobileScan.totalFiles}`);
+
+console.log("Comparing entries...");
 const compareResult = await compareScans(icloudScan, mobileScan, config);
+console.log("Comparison complete.");
 
 const summary: ReportSummary = {
   startedAt: new Date(start).toISOString(),
@@ -46,8 +54,8 @@ const summary: ReportSummary = {
   includeExtensions: config.includeExtensions,
   totalIcloud: icloudScan.totalFiles,
   totalMobile: mobileScan.totalFiles,
-  uniqueNamesIcloud: icloudScan.nameToEntries.size,
-  uniqueNamesMobile: mobileScan.nameToEntries.size,
+  uniqueNamesIcloud: icloudScan.keyToEntries.size,
+  uniqueNamesMobile: mobileScan.keyToEntries.size,
   onlyInIcloud: compareResult.onlyInIcloud.length,
   onlyInMobile: compareResult.onlyInMobile.length,
   sameNameDifferent: compareResult.sameNameDifferent.length,
@@ -58,3 +66,6 @@ await writeReports(outputDir, compareResult, summary);
 
 console.log("Report complete.");
 console.log(`Output: ${outputDir}`);
+console.log(
+  `Only in iCloud: ${compareResult.onlyInIcloud.length} | Only in mobile: ${compareResult.onlyInMobile.length} | Different: ${compareResult.sameNameDifferent.length}`
+);

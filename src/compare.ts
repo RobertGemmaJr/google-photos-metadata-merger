@@ -52,19 +52,19 @@ export async function compareScans(icloud: ScanResult, mobile: ScanResult, confi
   const sameNameDifferent: CompareResult["sameNameDifferent"] = [];
   let hashCompared = 0;
 
-  const allNames = new Set<string>();
-  for (const key of icloud.nameToEntries.keys()) {
-    allNames.add(key);
+  const allKeys = new Set<string>();
+  for (const key of icloud.keyToEntries.keys()) {
+    allKeys.add(key);
   }
-  for (const key of mobile.nameToEntries.keys()) {
-    allNames.add(key);
+  for (const key of mobile.keyToEntries.keys()) {
+    allKeys.add(key);
   }
 
-  const nameList = Array.from(allNames);
+  const keyList = Array.from(allKeys);
 
-  await mapLimit(nameList, config.concurrency, async (nameKey) => {
-    const icloudEntries = icloud.nameToEntries.get(nameKey) ?? [];
-    const mobileEntries = mobile.nameToEntries.get(nameKey) ?? [];
+  await mapLimit(keyList, config.concurrency, async (entryKey) => {
+    const icloudEntries = icloud.keyToEntries.get(entryKey) ?? [];
+    const mobileEntries = mobile.keyToEntries.get(entryKey) ?? [];
 
     if (icloudEntries.length === 0 && mobileEntries.length > 0) {
       onlyInMobile.push(...mobileEntries);
@@ -83,7 +83,7 @@ export async function compareScans(icloud: ScanResult, mobile: ScanResult, confi
     if (config.comparisonMode === "filename+meta") {
       if (entriesDifferByMeta(icloudEntries, mobileEntries)) {
         sameNameDifferent.push({
-          name: icloudEntries[0]?.name ?? nameKey,
+          name: icloudEntries[0]?.name ?? entryKey,
           icloud: icloudEntries,
           mobile: mobileEntries,
           reason: "size-or-mtime",
@@ -96,13 +96,15 @@ export async function compareScans(icloud: ScanResult, mobile: ScanResult, confi
     hashCompared += hashResult.hashCompared;
     if (hashResult.differs) {
       sameNameDifferent.push({
-        name: icloudEntries[0]?.name ?? nameKey,
+        name: icloudEntries[0]?.name ?? entryKey,
         icloud: icloudEntries,
         mobile: mobileEntries,
         reason: "hash",
       });
     }
   });
+
+  console.log(`Compared keys: ${keyList.length}`);
 
   return {
     onlyInIcloud,

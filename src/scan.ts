@@ -20,14 +20,20 @@ function shouldIncludeFile(filePath: string, extensions: string[]) {
 export async function scanDirectory(root: string, config: Config) {
   const normalizedRoot = normalizePath(root);
   const entries: FileEntry[] = [];
-  const nameToEntries = new Map<string, FileEntry[]>();
+  const keyToEntries = new Map<string, FileEntry[]>();
   const ignoreMatcher = createIgnoreMatcher(config.ignorePatterns);
   const queue: QueueEntry[] = [{ directory: normalizedRoot }];
+  let directoriesScanned = 0;
 
   while (queue.length > 0) {
     const current = queue.pop();
     if (!current) {
       continue;
+    }
+
+    directoriesScanned += 1;
+    if (directoriesScanned % 200 === 0) {
+      console.log(`Scanning folders... (${directoriesScanned})`);
     }
 
     let dirents: Dirent[];
@@ -83,9 +89,14 @@ export async function scanDirectory(root: string, config: Config) {
       }
       const name = fileNameFromPath(fullPath);
       const nameKey = normalizeKey(name, config.caseSensitive);
+      const pathSegments = relativePath.split("/").filter(Boolean);
+      const monthKey =
+        pathSegments.length >= 2 ? `${pathSegments[0]}/${pathSegments[1]}` : "unknown";
+      const entryKey = `${monthKey}::${nameKey}`;
       const entry: FileEntry = {
         name,
         nameKey,
+        monthKey,
         fullPath,
         relativePath,
         size: stats.size,
@@ -93,18 +104,18 @@ export async function scanDirectory(root: string, config: Config) {
       };
 
       entries.push(entry);
-      const existing = nameToEntries.get(nameKey);
+      const existing = keyToEntries.get(entryKey);
       if (existing) {
         existing.push(entry);
       } else {
-        nameToEntries.set(nameKey, [entry]);
+        keyToEntries.set(entryKey, [entry]);
       }
     }
   }
 
   return {
     entries,
-    nameToEntries,
+    keyToEntries,
     totalFiles: entries.length,
   };
 }

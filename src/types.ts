@@ -16,6 +16,7 @@ export interface Config {
 export interface FileEntry {
   name: string;
   nameKey: string;
+  monthKey: string;
   fullPath: string;
   relativePath: string;
   size: number;
@@ -46,7 +47,7 @@ export interface ReportSummary {
 
 export interface ScanResult {
   entries: FileEntry[];
-  nameToEntries: Map<string, FileEntry[]>;
+  keyToEntries: Map<string, FileEntry[]>;
   totalFiles: number;
 }
 
