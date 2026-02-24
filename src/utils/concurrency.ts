@@ -2,7 +2,7 @@ export async function mapLimit<T, R>(
   items: T[],
   limit: number,
   mapper: (item: T, index: number) => Promise<R>
-): Promise<R[]> {
+) {
   if (limit <= 1) {
     const results: R[] = [];
     for (let index = 0; index < items.length; index += 1) {
@@ -17,7 +17,7 @@ export async function mapLimit<T, R>(
   const results: R[] = new Array(items.length);
   let nextIndex = 0;
 
-  async function worker(): Promise<void> {
+  async function worker() {
     while (true) {
       const index = nextIndex;
       nextIndex += 1;

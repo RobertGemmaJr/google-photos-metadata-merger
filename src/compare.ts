@@ -2,7 +2,7 @@ import { mapLimit } from "./utils/concurrency.ts";
 import { hashFile } from "./utils/hash.ts";
 import type { CompareResult, Config, FileEntry, ScanResult } from "./types.ts";
 
-function buildCountMap(values: string[]): Map<string, number> {
+function buildCountMap(values: string[]) {
   const map = new Map<string, number>();
   for (const value of values) {
     map.set(value, (map.get(value) ?? 0) + 1);
@@ -10,7 +10,7 @@ function buildCountMap(values: string[]): Map<string, number> {
   return map;
 }
 
-function countMapsEqual(left: Map<string, number>, right: Map<string, number>): boolean {
+function countMapsEqual(left: Map<string, number>, right: Map<string, number>) {
   if (left.size !== right.size) {
     return false;
   }
@@ -22,18 +22,14 @@ function countMapsEqual(left: Map<string, number>, right: Map<string, number>): 
   return true;
 }
 
-function entriesDifferByMeta(icloud: FileEntry[], mobile: FileEntry[]): boolean {
+function entriesDifferByMeta(icloud: FileEntry[], mobile: FileEntry[]) {
   const normalize = (entry: FileEntry) => `${entry.size}:${Math.round(entry.mtimeMs)}`;
   const left = buildCountMap(icloud.map(normalize));
   const right = buildCountMap(mobile.map(normalize));
   return !countMapsEqual(left, right);
 }
 
-async function entriesDifferByHash(
-  icloud: FileEntry[],
-  mobile: FileEntry[],
-  config: Config
-): Promise<{ differs: boolean; hashCompared: number }> {
+async function entriesDifferByHash(icloud: FileEntry[], mobile: FileEntry[], config: Config) {
   const [icloudHashes, mobileHashes] = await Promise.all([
     mapLimit(icloud, config.concurrency, async (entry) =>
       hashFile(entry.fullPath, config.hashAlgorithm)
@@ -50,11 +46,7 @@ async function entriesDifferByHash(
   return { differs, hashCompared: icloudHashes.length + mobileHashes.length };
 }
 
-export async function compareScans(
-  icloud: ScanResult,
-  mobile: ScanResult,
-  config: Config
-): Promise<CompareResult> {
+export async function compareScans(icloud: ScanResult, mobile: ScanResult, config: Config) {
   const onlyInIcloud: FileEntry[] = [];
   const onlyInMobile: FileEntry[] = [];
   const sameNameDifferent: CompareResult["sameNameDifferent"] = [];

@@ -38,7 +38,7 @@ Environment fallbacks:
   INCLUDE_EXT, CASE_SENSITIVE, FOLLOW_SYMLINKS, COMPARISON_MODE, CONCURRENCY
 `;
 
-function parseArgs(argv: string[]): ParsedArgs {
+function parseArgs(argv: string[]) {
   const parsed: ParsedArgs = {};
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -102,14 +102,14 @@ function parseArgs(argv: string[]): ParsedArgs {
   return parsed;
 }
 
-function validateMode(mode: ComparisonMode): void {
+function validateMode(mode: ComparisonMode) {
   const allowed: ComparisonMode[] = ["filename", "filename+meta", "filename+hash"];
   if (!allowed.includes(mode)) {
     throw new Error(`Invalid mode: ${mode}. Use filename | filename+meta | filename+hash.`);
   }
 }
 
-export async function run(argv: string[]): Promise<void> {
+export async function run(argv: string[]) {
   if (argv.includes("--help") || argv.includes("-h")) {
     console.log(HELP_TEXT);
     return;

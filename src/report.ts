@@ -3,11 +3,11 @@ import path from "node:path";
 import { toPosix } from "./utils/path-utils.ts";
 import type { CompareResult, FileEntry, ReportSummary } from "./types.ts";
 
-function formatDate(value: number): string {
+function formatDate(value: number) {
   return new Date(value).toISOString();
 }
 
-function csvEscape(value: string | number): string {
+function csvEscape(value: string | number) {
   const raw = String(value);
   if (raw.includes(",") || raw.includes("\n") || raw.includes("\r") || raw.includes('"')) {
     return `"${raw.replace(/"/g, '""')}"`;
@@ -15,7 +15,7 @@ function csvEscape(value: string | number): string {
   return raw;
 }
 
-function formatEntryRow(entry: FileEntry, archive: string): string {
+function formatEntryRow(entry: FileEntry, archive: string) {
   return [
     csvEscape(entry.name),
     csvEscape(toPosix(entry.fullPath)),
@@ -26,12 +26,7 @@ function formatEntryRow(entry: FileEntry, archive: string): string {
   ].join(",");
 }
 
-function formatDifferentRow(
-  name: string,
-  archive: string,
-  entry: FileEntry,
-  reason: string
-): string {
+function formatDifferentRow(name: string, archive: string, entry: FileEntry, reason: string) {
   return [
     csvEscape(name),
     csvEscape(archive),
@@ -46,7 +41,7 @@ export async function writeReports(
   outputDir: string,
   compare: CompareResult,
   summary: ReportSummary
-): Promise<void> {
+) {
   await fs.mkdir(outputDir, { recursive: true });
 
   const onlyInIcloudPath = path.join(outputDir, "only-in-icloud.csv");

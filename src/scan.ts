@@ -1,14 +1,15 @@
 import { promises as fs } from "node:fs";
+import type { Dirent, Stats } from "node:fs";
 import path from "node:path";
 import { createIgnoreMatcher } from "./utils/ignore.ts";
 import { fileNameFromPath, makeRelative, normalizeKey, normalizePath } from "./utils/path-utils.ts";
-import type { Config, FileEntry, ScanResult } from "./types.ts";
+import type { Config, FileEntry } from "./types.ts";
 
 interface QueueEntry {
   directory: string;
 }
 
-function shouldIncludeFile(filePath: string, extensions: string[]): boolean {
+function shouldIncludeFile(filePath: string, extensions: string[]) {
   if (extensions.length === 0) {
     return true;
   }
@@ -16,7 +17,7 @@ function shouldIncludeFile(filePath: string, extensions: string[]): boolean {
   return extensions.includes(ext);
 }
 
-export async function scanDirectory(root: string, config: Config): Promise<ScanResult> {
+export async function scanDirectory(root: string, config: Config) {
   const normalizedRoot = normalizePath(root);
   const entries: FileEntry[] = [];
   const nameToEntries = new Map<string, FileEntry[]>();
@@ -29,7 +30,7 @@ export async function scanDirectory(root: string, config: Config): Promise<ScanR
       continue;
     }
 
-    let dirents = [];
+    let dirents: Dirent[];
     try {
       dirents = await fs.readdir(current.directory, { withFileTypes: true });
     } catch {
@@ -50,7 +51,7 @@ export async function scanDirectory(root: string, config: Config): Promise<ScanR
       }
 
       if (dirent.isSymbolicLink() && config.followSymlinks) {
-        let stats: import("node:fs").Stats;
+        let stats: Stats;
         try {
           stats = await fs.stat(fullPath);
         } catch {
@@ -74,7 +75,7 @@ export async function scanDirectory(root: string, config: Config): Promise<ScanR
         continue;
       }
 
-      let stats: import("node:fs").Stats;
+      let stats: Stats;
       try {
         stats = await fs.stat(fullPath);
       } catch {

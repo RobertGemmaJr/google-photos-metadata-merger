@@ -1,10 +1,10 @@
 import path from "node:path";
-import type { ComparisonMode, Config } from "./types.ts";
+import type { ComparisonMode } from "./types.ts";
 import { normalizePath } from "./utils/path-utils.ts";
 
 const DEFAULT_IGNORE = ["**/.DS_Store", "**/Thumbs.db", "**/@eaDir/**"];
 
-function parseList(value: string | undefined): string[] {
+function parseList(value: string | undefined) {
   if (!value) {
     return [];
   }
@@ -14,7 +14,7 @@ function parseList(value: string | undefined): string[] {
     .filter((item) => item.length > 0);
 }
 
-function normalizeExtensions(values: string[]): string[] {
+function normalizeExtensions(values: string[]) {
   return values.map((value) =>
     value.startsWith(".") ? value.toLowerCase() : `.${value.toLowerCase()}`
   );
@@ -31,7 +31,7 @@ export function buildConfig(args: {
   comparisonMode?: ComparisonMode;
   hashAlgorithm?: "sha256";
   concurrency?: number;
-}): Config {
+}) {
   const icloudRoot = args.icloudRoot ?? process.env.ICLOUD_ARCHIVE ?? "";
   const mobileRoot = args.mobileRoot ?? process.env.MOBILE_ARCHIVE ?? "";
   const outputDir = args.outputDir ?? process.env.OUTPUT_DIR ?? "reports";
@@ -71,7 +71,7 @@ export function buildConfig(args: {
   };
 }
 
-export function resolveOutputDir(baseDir: string): string {
+export function resolveOutputDir(baseDir: string) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   return path.join(baseDir, `comparison-report-${timestamp}`);
 }
